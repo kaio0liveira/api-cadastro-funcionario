@@ -10,7 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +35,7 @@ public class Departamento {
 	
 	@OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
 	@JsonIgnore
+	@JsonManagedReference(value = "departamento")
 	private List<Funcionario> funcionario = new ArrayList<>();
 	
 	

@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -32,10 +33,12 @@ public class Funcionario {
 	
 	@ManyToOne
 	@JoinColumn(name = "cargo_id")
+	@JsonBackReference(value = "cargo")
 	private Cargo cargo;
 	
 	@ManyToOne
 	@JoinColumn(name = "departamento_id")
+	@JsonBackReference(value = "departamento")
 	private  Departamento departamento;
 
 	

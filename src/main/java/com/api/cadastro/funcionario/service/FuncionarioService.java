@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.cadastro.funcionario.entity.Funcionario;
-import com.api.cadastro.funcionario.exception.NotFoundException;
+import com.api.cadastro.funcionario.exception.NotFoundIdException;
 import com.api.cadastro.funcionario.repository.FuncionarioRepository;
 
 @Service
@@ -23,11 +23,10 @@ public class FuncionarioService {
 		return repository.findAll();
 	}
 	
-	public Funcionario buscarPorId(Long id) throws NotFoundException {
-
-		return repository.findById(id).orElseThrow(() -> new NotFoundException("ID não encontrado!"));
+	public Funcionario buscarPorId(Long id)  {
+		this.validarId(id);
+		return repository.findById(id).get();
 	}
-	
 	
 	public Funcionario cadastrar(Funcionario funcionario) {
 		
@@ -45,6 +44,10 @@ public class FuncionarioService {
 		funcionario.setId(id);
 		return repository.save(funcionario);
 		
+	}
+	private void validarId(Long id) {
+		
+		 repository.findById(id).orElseThrow(() -> new NotFoundIdException("ID "+id+" não encontrado!"));
 	}
 
 }

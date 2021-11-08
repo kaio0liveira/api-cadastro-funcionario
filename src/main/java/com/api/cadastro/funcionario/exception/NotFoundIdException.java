@@ -1,11 +1,11 @@
 package com.api.cadastro.funcionario.exception;
 
-public class NotFoundException extends RuntimeException{
+public class NotFoundIdException extends RuntimeException{
 	
 
 	private static final long serialVersionUID = 1L;
 
-	public NotFoundException(String mensagem) {
+	public NotFoundIdException(String mensagem) {
 		super(mensagem);
 	}
 }
