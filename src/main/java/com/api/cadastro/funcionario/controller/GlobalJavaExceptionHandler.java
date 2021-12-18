@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import com.api.cadastro.funcionario.entity.*;
+import com.api.cadastro.funcionario.exception.ErrorNegecioException;
 import com.api.cadastro.funcionario.exception.NotFoundIdException;
 
 @RestController
@@ -14,7 +15,12 @@ import com.api.cadastro.funcionario.exception.NotFoundIdException;
 public class GlobalJavaExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(NotFoundIdException.class)
-	public ResponseEntity<ErrorObject> handleDiffControllerExceptions(NotFoundIdException e) {
+	public ResponseEntity<ErrorObject> notFound(NotFoundIdException e) {
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorObject(e.getMessage()));
+	}
+	
+	@ExceptionHandler(ErrorNegecioException.class)
+	public ResponseEntity<ErrorObject> errorNegocio(ErrorNegecioException e) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorObject(e.getMessage()));
 	}
 	

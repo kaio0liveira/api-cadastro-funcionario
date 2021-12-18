@@ -21,6 +21,7 @@ public class CargoService {
 		return cargos;
 	}
 	
+	
 	public Cargo cadastrar(Cargo cargo) {
 		
 		return repository.save(cargo);

@@ -20,7 +20,6 @@ public class CargoDTO {
 	private String nome;
 	private List<Funcionario> funcionarios;
 	
-	
 	public static List<CargoDTO> toCursoDto(List<Cargo> cargos){
 		
 		return cargos.stream().map(cargo -> new CargoDTO(cargo.getNome(), cargo.getFuncionarios())).collect(Collectors.toList());

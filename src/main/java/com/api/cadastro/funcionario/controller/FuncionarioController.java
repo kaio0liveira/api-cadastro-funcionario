@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,18 +27,25 @@ public class FuncionarioController {
 	@Autowired
 	FuncionarioService service;
 	
-	@GetMapping
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Funcionario>> listar() {
 		
 		return ResponseEntity.ok(service.listar());
 		
 	}
 	@GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Funcionario> buscarPorId(@PathVariable(name = "id") Long id) throws Exception {
+	public ResponseEntity<Funcionario> buscarPorId(@PathVariable(name = "id") Long id){
 		
 		Funcionario f = service.buscarPorId(id);
 	
 		return ResponseEntity.ok(f);
+		
+	}
+	
+	@GetMapping(value = "/filtro/{nome}",produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Funcionario>> filtro(@PathVariable(name = "nome") String nome){
+		
+		return ResponseEntity.ok(service.listarPorNome(nome));
 		
 	}
 	
@@ -50,7 +58,7 @@ public class FuncionarioController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(func);	
 		
 	}
-
+	@CrossOrigin(origins = "http://localhost:4200")
 	@DeleteMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
 	public ResponseEntity<?> deletar(@PathVariable(name = "id") Long id) {
@@ -61,7 +69,7 @@ public class FuncionarioController {
 	}
 	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Transactional
-	public ResponseEntity<?> atualizar(@PathVariable(name = "id") Long id, @RequestBody Funcionario funcionario) {
+	public ResponseEntity<Funcionario> atualizar(@PathVariable(name = "id") Long id, @RequestBody Funcionario funcionario) {
 		
 		Funcionario func = service.atualizar(id,funcionario);
 		return ResponseEntity.ok(func);

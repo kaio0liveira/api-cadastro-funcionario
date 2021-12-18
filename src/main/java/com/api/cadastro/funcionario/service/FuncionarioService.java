@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.cadastro.funcionario.entity.Funcionario;
+import com.api.cadastro.funcionario.enums.Mensagens;
+import com.api.cadastro.funcionario.exception.ErrorNegecioException;
 import com.api.cadastro.funcionario.exception.NotFoundIdException;
 import com.api.cadastro.funcionario.repository.FuncionarioRepository;
 
@@ -26,6 +28,13 @@ public class FuncionarioService {
 	public Funcionario buscarPorId(Long id)  {
 		this.validarId(id);
 		return repository.findById(id).get();
+	}
+	
+	public List<Funcionario> listarPorNome(String nome){
+		if (repository.findByNome(nome).isEmpty()) {
+			throw new ErrorNegecioException(Mensagens.NENHUM_RESULTADO_ENCONTRADO);
+		}
+		return repository.findByNome(nome);
 	}
 	
 	public Funcionario cadastrar(Funcionario funcionario) {

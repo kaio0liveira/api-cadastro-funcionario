@@ -1,10 +1,13 @@
 package com.api.cadastro.funcionario.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.api.cadastro.funcionario.dto.DepartamentoDTO;
 import com.api.cadastro.funcionario.entity.Cargo;
 import com.api.cadastro.funcionario.entity.Departamento;
 import com.api.cadastro.funcionario.exception.NotFoundIdException;
@@ -19,8 +22,15 @@ public class DepartamentoService {
 	DepartamentoRepository repository;
 	
 	public List<Departamento> listar() {
-		List<Departamento> departamentos = repository.findAll();
-		return departamentos;
+		return repository.findAll();
+	}
+	
+	public static List<DepartamentoDTO> listarDTO(List<Departamento> list)  {
+		
+		return list.stream().map(d -> new DepartamentoDTO().toDepartamentoDTO(d))
+		.collect(Collectors.toList());
+		
+		
 	}
 	
 	public Departamento cadastrar(Departamento departamento) {
@@ -33,6 +43,12 @@ public class DepartamentoService {
 		this.validarId(id);
 		
 		return repository.findById(id).get();
+		
+	}
+	public DepartamentoDTO buscarPorIdDTO(Long id)  {
+		this.validarId(id);
+		Departamento dep = repository.findById(id).get();
+		return new DepartamentoDTO().toDepartamentoDTO(dep);
 		
 	}
 	
@@ -54,4 +70,5 @@ public class DepartamentoService {
 
 	}
 	
+
 }

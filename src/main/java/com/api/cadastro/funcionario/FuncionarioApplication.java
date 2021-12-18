@@ -10,11 +10,6 @@ public class FuncionarioApplication {
 		SpringApplication.run(FuncionarioApplication.class, args);
 		
 		
-		
-		// 1 - CRIAR CONTROLLER E REPOSITORY CURSO E DEPARTAMENTO
-		
-		
-		
 	}
 
 }

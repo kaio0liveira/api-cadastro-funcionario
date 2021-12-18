@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,12 +32,13 @@ public class Departamento {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank
 	private String nome;
 	
-	@OneToMany(mappedBy = "departamento", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "departamento", fetch = FetchType.EAGER)
 	@JsonIgnore
 	@JsonManagedReference(value = "departamento")
-	private List<Funcionario> funcionario = new ArrayList<>();
+	private List<Funcionario> funcionarios = new ArrayList<>();
 	
 	
 
